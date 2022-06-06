@@ -28,7 +28,7 @@ class Data:
         self.end = end
         self.interval = interval
 
-    def load_data(self, case: str):
+    def load_data(self, case=""):
         """
         Fetch Data from Yfinance
         :return: DataFrame from yf
