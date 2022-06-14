@@ -160,3 +160,8 @@ class Stock_Classifier:
             print(YTest.to_numpy())
             print("Accuracy score : ", accuracy_score(YTest, predicted))
 
+
+st = Stock_Classifier('TSLA')
+st2 = Stock_Classifier('TSLA-Test2', test=True)
+st2.Y = st2.filter_in_numeric()
+st.MLPClassifier(test_data=st2.X, y_test=st2.Y)

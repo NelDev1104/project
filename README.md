@@ -66,6 +66,58 @@ We turn it into 1 if Close was higher than Open, which means on that day the sto
 
 
 ---
+### MLP Classifier 
+
+Added a new Classifier from scikitlearn, which trains data with a Neural Network.
+For the input layer we are using our features and the new features, which are: RSI,
+SMA and Supertrend. These features are used to give more information to the neural network
+for our input layer.
+
+<br/>
+The technical indicators are added automatically so, the training data gets more precisely.
+
+
+####Example
+
+```python
+#We also scaled the data with StandardScaler
+xtrain_scaled = sc.fit_transform(XTrain)
+if test_data is not None:
+    xtest_scaled = sc.fit_transform(test_data)
+else:
+    xtest_scaled = sc.fit_transform(XTest)
+#We need to scale the price so it gets more precisely
+#Using the MLP classifier with hiddens layers
+clf = MLPClassifier(hidden_layer_sizes=(50, 50, 60, 30, 9), activation='relu', solver='adam').fit(xtrain_scaled,
+                                                                                                          YTrain)
+```
+#### How it works
+Note that our MLPClassifier takes a test_data parameter (default is None) and y_test (default is also None)
+```python
+st = Stock_Classifier('TSLA')
+st.MLPClassifier()
+#Trains the Data and Predict the Price
+```
+---
+
+### New Feature
+
+I added a new feature which could be call recursively. This feature append a new row to the csv data.
+We take the Close Price and added this to a new row as the Open Price - Note that this is not very precise since there is After Hour
+and Pre Market -. Therefore, we could use this data to predict the future trend, wheter the stock is going up or down.
+To append a new row use:
+```python
+#The Stock_Classifiert takes a param test, which append a new row to the csv data
+st2 = Stock_Classifier('TSLA-Test2', test=True)
+st2.Y = st2.filter_in_numeric()
+st.MLPClassifier(test_data=st2.X, y_test=st2.Y)
+# We can use this to predict the stock data from st2
+# Training the model and test to a new test data
+
+```
+
+
+---
 
 ### Example
 
